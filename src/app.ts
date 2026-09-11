@@ -9,31 +9,35 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.get('/help', (req: Request, res: Response) => {
-  res.status(200).json({
-    status: "ok",
-  });
+  res.status(200).json({ status: "ok" });
 });
 
-
+// Ruta general
 app.get('/api/books', (req: Request, res: Response) => {
-  const { category } = req.query;
+  res.status(200).json(books);
+});
 
-  if (category) {
+// NUEVA RUTA: Atrapa la URL exacta de tu foto antes de que caiga en el ID
+app.get('/api/books/category', (req: Request, res: Response) => {
+  // Esta línea captura tanto ?category=novela como el ?=novela que tienes en la foto
+  const categoryName = (req.query.category as string) || (req.query[''] as string);
+
+  if (categoryName) {
     const filteredBooks = books.filter(b => 
-      b.category && b.category.toLowerCase() === (category as string).toLowerCase()
+      b.category && b.category.toLowerCase() === categoryName.toLowerCase()
     );
     return res.status(200).json(filteredBooks);
   }
 
-  res.status(200).json(books);
+  res.status(400).json({ error: "No se especificó ninguna categoría" });
 });
 
-
+// Ruta del ID (Debe ir siempre al final)
 app.get('/api/books/:id', (req: Request, res: Response) => {
   const id = parseInt(req.params.id as string);
   
   if (isNaN(id) || id <= 0) {
-    return res.status(400).json({ error: "El ID no es  un entero positivo" });
+    return res.status(400).json({ error: "El ID no es un entero positivo" });
   }
 
   const book = books.find(b => b.id === id);
