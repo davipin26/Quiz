@@ -14,7 +14,7 @@ app.get('/help', (req: Request, res: Response) => {
   });
 });
 
-// NUEVO: Ruta general para listar todos y filtrar por categoría
+
 app.get('/api/books', (req: Request, res: Response) => {
   const { category } = req.query;
 
@@ -28,7 +28,7 @@ app.get('/api/books', (req: Request, res: Response) => {
   res.status(200).json(books);
 });
 
-// INTACTO: Tu ruta para buscar por ID
+
 app.get('/api/books/:id', (req: Request, res: Response) => {
   const id = parseInt(req.params.id as string);
   
