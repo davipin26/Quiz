@@ -17,9 +17,9 @@ app.get('/api/books', (req: Request, res: Response) => {
   res.status(200).json(books);
 });
 
-// NUEVA RUTA: Atrapa la URL exacta de tu foto antes de que caiga en el ID
+
 app.get('/api/books/category', (req: Request, res: Response) => {
-  // Esta línea captura tanto ?category=novela como el ?=novela que tienes en la foto
+
   const categoryName = (req.query.category as string) || (req.query[''] as string);
 
   if (categoryName) {
@@ -32,7 +32,7 @@ app.get('/api/books/category', (req: Request, res: Response) => {
   res.status(400).json({ error: "No se especificó ninguna categoría" });
 });
 
-// Ruta del ID (Debe ir siempre al final)
+
 app.get('/api/books/:id', (req: Request, res: Response) => {
   const id = parseInt(req.params.id as string);
   
